@@ -35,7 +35,6 @@ export default function EditorialWorkspace() {
     useDocumentStore.getState().loadFromLocal();
   }, []);
 
-  // Función para actualizar el visor de Vivliostyle en tiempo real
   const updateVivliostyle = (htmlContent: string) => {
     if (viewerRef.current && viewerRef.current.contentWindow) {
       const doc = viewerRef.current.contentWindow.document;
@@ -47,7 +46,6 @@ export default function EditorialWorkspace() {
           <meta charset="utf-8">
           <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Georgia&display=swap" rel="stylesheet">
           <style>
-            /* REGLAS DE MAQUETACIÓN VIVLIOSTYLE (CSS PAGED MEDIA) */
             @page { size: A4; margin: 25mm 20mm; }
             body { font-family: 'Georgia', serif; color: #111; }
             h1 { font-family: 'Merriweather', serif; font-size: 26pt; font-weight: 900; line-height: 1.1; margin-bottom: 12pt; page-break-after: avoid; }
@@ -56,7 +54,6 @@ export default function EditorialWorkspace() {
             blockquote { font-family: 'Merriweather', serif; font-size: 13pt; border-left: 4pt solid #c00; margin: 20pt 0; padding: 10pt 0 10pt 16pt; font-style: italic; color: #444; background: #fafafa; }
             img { max-width: 100%; height: auto; margin: 16pt 0 8pt 0; display: block; page-break-inside: avoid; }
             
-            /* VARIANTES DE PLANTILLA */
             ${template === 'revista' ? `
               @page { margin: 15mm 15mm; }
               p { column-count: 2; column-gap: 16pt; }
@@ -92,7 +89,6 @@ export default function EditorialWorkspace() {
 
   return (
     <div className="flex h-screen bg-gray-100 font-sans overflow-hidden">
-      {/* PANEL IZQUIERDO: Editor Profesional (Estilo Ghost/Notion) */}
       <div className="w-1/2 flex flex-col border-r border-gray-200 bg-white shadow-xl z-10">
         <div className="bg-gray-900 text-white p-4 flex items-center justify-between border-b border-gray-800">
           <div className="flex items-center gap-2 font-bold text-lg tracking-tight">
@@ -105,7 +101,6 @@ export default function EditorialWorkspace() {
           />
         </div>
 
-        {/* Barra de Herramientas */}
         <div className="flex flex-wrap gap-1 p-2 border-b border-gray-200 bg-gray-50">
           <button onClick={() => editor.chain().focus().toggleBold().run()} className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('bold') ? 'bg-gray-200 text-blue-700' : 'text-gray-700'}`} title="Negrita"><Bold size={18}/></button>
           <button onClick={() => editor.chain().focus().toggleItalic().run()} className={`p-2 rounded hover:bg-gray-200 ${editor.isActive('italic') ? 'bg-gray-200 text-blue-700' : 'text-gray-700'}`} title="Cursiva"><Italic size={18}/></button>
@@ -125,7 +120,6 @@ export default function EditorialWorkspace() {
         </div>
       </div>
 
-      {/* PANEL DERECHO: Maquetación Vivliostyle (Estilo InDesign Web) */}
       <div className="w-1/2 flex flex-col bg-gray-200 relative">
         <div className="bg-white border-b border-gray-200 p-3 flex items-center justify-between shadow-sm z-10">
           <div className="flex bg-gray-100 rounded-lg p-1">
@@ -134,7 +128,7 @@ export default function EditorialWorkspace() {
             <button onClick={() => useDocumentStore.getState().setTemplate('libro')} className={`flex items-center gap-1 px-3 py-1.5 rounded text-xs font-semibold transition ${template === 'libro' ? 'bg-white text-blue-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}><BookOpen size={14}/> Libro</button>
           </div>
           <button onClick={handleExportPDF} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-bold transition shadow-md">
-            <Download size={16} /> Exportar PDF (Imprimir)
+            <Download size={16} /> Exportar PDF
           </button>
         </div>
 
@@ -145,7 +139,7 @@ export default function EditorialWorkspace() {
             style={{ width: '210mm', height: '297mm', border: 'none' }}
             title="Vista previa de maquetación"
           />
-        </div
+        </div>
       </div>
     </div>
   );
