@@ -193,4 +193,78 @@ export default function EditorialWorkspace() {
       <div className="w-1/2 flex flex-col border-r border-slate-200 bg-white shadow-2xl z-10">
         <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-5 flex items-center justify-between border-b border-slate-700">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+              <FileText className="text-white" size={20} />
+            </div>
+            <div>
+              <h1 className="font-bold text-lg tracking-tight">Versia Studio</h1>
+              <p className="text-xs text-slate-400">Editorial Profesional</p>
+            </div>
+          </div>
+          <input 
+            type="text" value={title} onChange={(e) => setTitle(e.target.value)}
+            className="bg-slate-800 text-slate-200 text-sm px-4 py-2 rounded-lg border border-slate-700 focus:outline-none focus:border-blue-500 w-64 text-right transition-all"
+            placeholder="Título del proyecto"
+          />
+        </div>
+
+        <div className="flex flex-wrap gap-1 p-3 border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white">
+          <button onClick={() => editor.chain().focus().toggleBold().run()} className={`p-2.5 rounded-lg hover:bg-slate-200 transition ${editor.isActive('bold') ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-700'}`} title="Negrita"><Bold size={18}/></button>
+          <button onClick={() => editor.chain().focus().toggleItalic().run()} className={`p-2.5 rounded-lg hover:bg-slate-200 transition ${editor.isActive('italic') ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-700'}`} title="Cursiva"><Italic size={18}/></button>
+          <div className="w-px h-8 bg-slate-300 mx-1"></div>
+          <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={`p-2.5 rounded-lg hover:bg-slate-200 transition ${editor.isActive('heading', { level: 1 }) ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-700'}`} title="Título 1"><Heading1 size={18}/></button>
+          <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={`p-2.5 rounded-lg hover:bg-slate-200 transition ${editor.isActive('heading', { level: 2 }) ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-700'}`} title="Título 2"><Heading2 size={18}/></button>
+          <button onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={`p-2.5 rounded-lg hover:bg-slate-200 transition ${editor.isActive('heading', { level: 3 }) ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-700'}`} title="Título 3"><Heading3 size={18}/></button>
+          <div className="w-px h-8 bg-slate-300 mx-1"></div>
+          <button onClick={() => editor.chain().focus().toggleBlockquote().run()} className={`p-2.5 rounded-lg hover:bg-slate-200 transition ${editor.isActive('blockquote') ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-700'}`} title="Cita"><Quote size={18}/></button>
+          <button onClick={() => { const url = window.prompt('URL de la imagen:'); if(url) editor.chain().focus().setImage({ src: url }).run(); }} className="p-2.5 rounded-lg hover:bg-slate-200 text-slate-700 transition" title="Imagen"><ImageIcon size={18}/></button>
+          <div className="w-px h-8 bg-slate-300 mx-1"></div>
+          <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className={`p-2.5 rounded-lg hover:bg-slate-200 transition ${editor.isActive({ textAlign: 'left' }) ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-700'}`} title="Izquierda"><AlignLeft size={18}/></button>
+          <button onClick={() => editor.chain().focus().setTextAlign('center').run()} className={`p-2.5 rounded-lg hover:bg-slate-200 transition ${editor.isActive({ textAlign: 'center' }) ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-700'}`} title="Centro"><AlignCenter size={18}/></button>
+          <button onClick={() => editor.chain().focus().setTextAlign('justify').run()} className={`p-2.5 rounded-lg hover:bg-slate-200 transition ${editor.isActive({ textAlign: 'justify' }) ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-700'}`} title="Justificado"><AlignJustify size={18}/></button>
+        </div>
+
+        <div className="flex-1 overflow-auto bg-white">
+          <EditorContent editor={editor} />
+        </div>
+      </div>
+
+      <div className="w-1/2 flex flex-col bg-slate-100 relative">
+        <div className="bg-white border-b border-slate-200 p-4 shadow-sm z-10">
+          <div className="grid grid-cols-3 gap-2 mb-3 max-h-48 overflow-y-auto">
+            {templates.map((tpl) => {
+              const Icon = tpl.icon;
+              return (
+                <button 
+                  key={tpl.id}
+                  onClick={() => useDocumentStore.getState().setTemplate(tpl.id as TemplateType)}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                    template === tpl.id 
+                      ? `bg-${tpl.color}-100 text-${tpl.color}-700 shadow-md ring-2 ring-${tpl.color}-500` 
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  <Icon size={14}/> {tpl.name}
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex justify-end">
+            <button onClick={handleExportPDF} className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg hover:shadow-xl">
+              <Download size={16} /> Exportar PDF
+            </button>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-auto p-8 flex justify-center bg-gradient-to-br from-slate-200 to-slate-300">
+          <iframe 
+            ref={viewerRef}
+            className="bg-white shadow-2xl rounded-lg"
+            style={{ width: '210mm', height: '297mm', border: 'none' }}
+            title="Vista previa editorial"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
