@@ -8,7 +8,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Estilos del Editor Tiptap */
 .ProseMirror {
   outline: none;
   min-height: 100%;
@@ -71,7 +70,6 @@ body {
   border-radius: 0 8px 8px 0;
 }
 
-/* Scrollbar personalizado */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
