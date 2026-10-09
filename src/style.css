@@ -1,6 +1,15 @@
-/* ===== Fuentes editoriales y reglas de impresión ===== */
+/* Importar fuentes profesionales */
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Georgia&display=swap');
 
+/* Estilos base */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Georgia', serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reglas para que al exportar a PDF solo salga la hoja A4 */
 @media print {
   body * {
     visibility: hidden;
