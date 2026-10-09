@@ -39,3 +39,9 @@ Esta es una **versión inicial funcional**, no un maquetador de imprenta termina
 ## GitHub / Vercel
 
 Crear un repositorio `versia-studio`, subir los archivos del ZIP a la raíz y conectar a Vercel como proyecto Vite. Build: `npm run build`. Directorio de salida: `dist`. No se requieren variables de entorno para el MVP.
+
+## Importación de documentos
+
+El botón **Importar** admite proyectos VERSIA (.json), Word (.docx), PDF (.pdf), texto (.txt), Markdown (.md) y HTML (.html). DOCX utiliza Mammoth; PDF utiliza PDF.js y extrae texto (no reconstruye fielmente el diseño ni realiza OCR). Los proyectos se guardan localmente en el navegador. Para generar un PDF usá **Exportar PDF** y el diálogo de impresión.
+
+**Despliegue:** reemplazar los archivos del repositorio con los de este ZIP, sin crear una carpeta `versia-studio` adicional dentro del repositorio. Vercel ejecuta `npm install` y `npm run build`.
