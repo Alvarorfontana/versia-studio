@@ -38,7 +38,8 @@ export default function EditorialWorkspace() {
     useDocumentStore.getState().loadFromLocal();
   }, []);
 
-  function getEditorialCSS(tpl) {
+  // CORRECCIÓN 1: Se agrega el tipo 'string' explícitamente
+  function getEditorialCSS(tpl: string): string {
     const base = `
       @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+Pro:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
       body { margin: 0; padding: 0; }
@@ -46,85 +47,37 @@ export default function EditorialWorkspace() {
     `;
 
     if (tpl === 'informe') {
-      return base + `
-        @page { size: A4; margin: 25mm 20mm; }
-        body { font-family: 'Inter', sans-serif; color: #1a1a1a; }
-        h1 { font-size: 28pt; font-weight: 700; border-bottom: 3px solid #3b82f6; padding-bottom: 12pt; }
-        p { font-size: 11pt; line-height: 1.7; text-align: justify; }
-      `;
+      return base + `@page { size: A4; margin: 25mm 20mm; } body { font-family: 'Inter', sans-serif; color: #1a1a1a; } h1 { font-size: 28pt; font-weight: 700; border-bottom: 3px solid #3b82f6; padding-bottom: 12pt; } p { font-size: 11pt; line-height: 1.7; text-align: justify; }`;
     }
     if (tpl === 'revista') {
-      return base + `
-        @page { size: A4; margin: 15mm 15mm; }
-        body { font-family: 'Playfair Display', serif; }
-        h1 { font-size: 42pt; font-weight: 900; color: #c41e3a; text-align: center; }
-        p { font-size: 11pt; column-count: 2; column-gap: 20pt; text-align: justify; }
-      `;
+      return base + `@page { size: A4; margin: 15mm 15mm; } body { font-family: 'Playfair Display', serif; } h1 { font-size: 42pt; font-weight: 900; color: #c41e3a; text-align: center; } p { font-size: 11pt; column-count: 2; column-gap: 20pt; text-align: justify; }`;
     }
     if (tpl === 'libro') {
-      return base + `
-        @page { size: A5; margin: 20mm 25mm; }
-        body { font-family: 'Crimson Text', serif; }
-        h1 { font-size: 24pt; text-align: center; margin-top: 40pt; }
-        p { font-size: 11pt; text-indent: 14pt; text-align: justify; }
-      `;
+      return base + `@page { size: A5; margin: 20mm 25mm; } body { font-family: 'Crimson Text', serif; } h1 { font-size: 24pt; text-align: center; margin-top: 40pt; } p { font-size: 11pt; text-indent: 14pt; text-align: justify; }`;
     }
     if (tpl === 'periodico') {
-      return base + `
-        @page { size: A3; margin: 10mm 15mm; }
-        body { font-family: 'Georgia', serif; }
-        h1 { font-size: 36pt; text-align: center; border-bottom: 2px solid #000; }
-        p { font-size: 10pt; column-count: 3; column-gap: 16pt; text-align: justify; }
-      `;
+      return base + `@page { size: A3; margin: 10mm 15mm; } body { font-family: 'Georgia', serif; } h1 { font-size: 36pt; text-align: center; border-bottom: 2px solid #000; } p { font-size: 10pt; column-count: 3; column-gap: 16pt; text-align: justify; }`;
     }
     if (tpl === 'academico') {
-      return base + `
-        @page { size: A4; margin: 30mm 25mm; }
-        body { font-family: 'Source Serif Pro', serif; }
-        h1 { font-size: 20pt; margin-top: 30pt; }
-        p { font-size: 11pt; line-height: 1.8; text-align: justify; }
-      `;
+      return base + `@page { size: A4; margin: 30mm 25mm; } body { font-family: 'Source Serif Pro', serif; } h1 { font-size: 20pt; margin-top: 30pt; } p { font-size: 11pt; line-height: 1.8; text-align: justify; }`;
     }
     if (tpl === 'fotografia') {
-      return base + `
-        @page { size: A4; margin: 0; }
-        body { font-family: 'Inter', sans-serif; }
-        h1 { font-size: 32pt; font-weight: 300; text-align: center; margin: 40pt 20pt; }
-        p { font-size: 10pt; text-align: center; margin: 20pt 40pt; }
-        img { width: 100%; margin: 0; }
-      `;
+      return base + `@page { size: A4; margin: 0; } body { font-family: 'Inter', sans-serif; } h1 { font-size: 32pt; font-weight: 300; text-align: center; margin: 40pt 20pt; } p { font-size: 10pt; text-align: center; margin: 20pt 40pt; } img { width: 100%; margin: 0; }`;
     }
     if (tpl === 'clarin') {
-      return base + `
-        @page { size: A3; margin: 8mm 10mm; }
-        body { font-family: 'Arial', sans-serif; }
-        h1 { font-family: 'Arial Black'; font-size: 64pt; text-align: center; line-height: 0.95; }
-        h2 { font-size: 11pt; color: #c41e3a; text-align: center; text-transform: uppercase; }
-        p { font-size: 9.5pt; column-count: 6; column-gap: 12pt; text-align: justify; }
-      `;
+      return base + `@page { size: A3; margin: 8mm 10mm; } body { font-family: 'Arial', sans-serif; } h1 { font-family: 'Arial Black'; font-size: 64pt; text-align: center; line-height: 0.95; } h2 { font-size: 11pt; color: #c41e3a; text-align: center; text-transform: uppercase; } p { font-size: 9.5pt; column-count: 6; column-gap: 12pt; text-align: justify; }`;
     }
     if (tpl === 'lanacion') {
-      return base + `
-        @page { size: A3; margin: 15mm 20mm; }
-        body { font-family: 'Georgia', serif; }
-        h1 { font-size: 42pt; text-align: center; }
-        h2 { font-size: 10pt; color: #64748b; text-align: center; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; }
-        p { font-size: 10pt; column-count: 5; column-gap: 16pt; text-align: justify; }
-      `;
+      return base + `@page { size: A3; margin: 15mm 20mm; } body { font-family: 'Georgia', serif; } h1 { font-size: 42pt; text-align: center; } h2 { font-size: 10pt; color: #64748b; text-align: center; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; } p { font-size: 10pt; column-count: 5; column-gap: 16pt; text-align: justify; }`;
     }
     if (tpl === 'pagina12') {
-      return base + `
-        @page { size: A3; margin: 10mm 12mm; }
-        body { font-family: 'Arial', sans-serif; }
-        h1 { font-family: 'Arial Black'; font-size: 48pt; color: #c41e3a; }
-        h2 { font-size: 12pt; text-transform: uppercase; }
-        p { font-size: 9.5pt; column-count: 5; column-gap: 14pt; text-align: justify; }
-      `;
+      return base + `@page { size: A3; margin: 10mm 12mm; } body { font-family: 'Arial', sans-serif; } h1 { font-family: 'Arial Black'; font-size: 48pt; color: #c41e3a; } h2 { font-size: 12pt; text-transform: uppercase; } p { font-size: 9.5pt; column-count: 5; column-gap: 14pt; text-align: justify; }`;
     }
     return base;
   }
 
-  const updateViewer = (htmlContent) => {
+  // CORRECCIÓN 2: Se agrega el tipo 'string' explícitamente
+  const updateViewer = (htmlContent: string) => {
     if (viewerRef.current && viewerRef.current.contentWindow) {
       const doc = viewerRef.current.contentWindow.document;
       doc.open();
