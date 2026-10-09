@@ -3,7 +3,6 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Typography from '@tiptap/extension-typography';
 import Placeholder from '@tiptap/extension-placeholder';
-import { Renderer } from '@vivliostyle/react';
 import { useDocumentStore } from '../store/useDocumentStore';
 import { FileText, Eye, Download, BookOpen, Newspaper, FileBarChart } from 'lucide-react';
 
@@ -33,26 +32,61 @@ export default function EditorialWorkspace() {
 
   const getEditorialCSS = () => {
     const base = `
-      @page { size: A4; margin: 25mm 20mm; }
-      body { font-family: 'Georgia', serif; color: #111; }
-      h1 { font-family: 'Merriweather', serif; font-size: 24pt; font-weight: 900; line-height: 1.1; margin-bottom: 12pt; page-break-after: avoid; }
-      h2 { font-family: 'Merriweather', serif; font-size: 16pt; font-weight: 700; margin-top: 24pt; margin-bottom: 12pt; page-break-after: avoid; }
-      p { font-size: 11pt; line-height: 1.6; text-align: justify; margin-bottom: 12pt; hyphens: auto; }
-      blockquote { font-family: 'Merriweather', serif; font-size: 12pt; border-left: 3pt solid #333; margin: 16pt 0; padding-left: 12pt; font-style: italic; color: #444; }
+      .editorial-page {
+        font-family: 'Georgia', serif;
+        color: #111;
+        padding: 25mm 20mm;
+        width: 210mm;
+        min-height: 297mm;
+        background: white;
+        box-sizing: border-box;
+      }
+      .editorial-page h1 {
+        font-family: 'Merriweather', serif;
+        font-size: 24pt;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 12pt;
+        page-break-after: avoid;
+      }
+      .editorial-page h2 {
+        font-family: 'Merriweather', serif;
+        font-size: 16pt;
+        font-weight: 700;
+        margin-top: 24pt;
+        margin-bottom: 12pt;
+        page-break-after: avoid;
+      }
+      .editorial-page p {
+        font-size: 11pt;
+        line-height: 1.6;
+        text-align: justify;
+        margin-bottom: 12pt;
+        hyphens: auto;
+      }
+      .editorial-page blockquote {
+        font-family: 'Merriweather', serif;
+        font-size: 12pt;
+        border-left: 3pt solid #333;
+        margin: 16pt 0;
+        padding-left: 12pt;
+        font-style: italic;
+        color: #444;
+      }
     `;
     
     if (template === 'revista') {
       return base + `
-        @page { margin: 15mm 15mm; }
-        p { column-count: 2; column-gap: 12pt; text-align: justify; }
-        h1 { font-size: 32pt; color: #c00; column-span: all; text-align: center; margin-bottom: 24pt; }
+        .editorial-page { padding: 15mm 15mm; }
+        .editorial-page p { column-count: 2; column-gap: 12pt; text-align: justify; }
+        .editorial-page h1 { font-size: 32pt; color: #c00; column-span: all; text-align: center; margin-bottom: 24pt; }
       `;
     }
     if (template === 'libro') {
       return base + `
-        @page { margin: 25mm 30mm; }
-        p { text-indent: 12pt; text-align: justify; }
-        p:first-of-type { text-indent: 0; }
+        .editorial-page { padding: 25mm 30mm; }
+        .editorial-page p { text-indent: 12pt; text-align: justify; }
+        .editorial-page p:first-of-type { text-indent: 0; }
       `;
     }
     return base;
@@ -65,6 +99,7 @@ export default function EditorialWorkspace() {
 
   return (
     <div className="flex h-screen bg-gray-100 font-sans overflow-hidden">
+      {/* PANEL IZQUIERDO: Redacción */}
       <div className="w-5/12 flex flex-col border-r border-gray-300 bg-white shadow-sm z-10">
         <div className="bg-gray-900 text-white p-4 flex items-center justify-between">
           <div className="flex items-center gap-2 font-semibold">
@@ -90,6 +125,7 @@ export default function EditorialWorkspace() {
         </div>
       </div>
 
+      {/* PANEL DERECHO: Vista Previa */}
       <div className="w-7/12 flex flex-col bg-gray-200 relative">
         <div className="bg-gray-800 text-white p-3 flex items-center justify-between shadow-sm z-10">
           <div className="flex items-center gap-2 font-semibold">
@@ -104,20 +140,11 @@ export default function EditorialWorkspace() {
         </div>
 
         <div className="flex-1 overflow-auto p-8 flex justify-center bg-gray-300">
+          <style>{getEditorialCSS()}</style>
           <div 
-            className="bg-white shadow-2xl transition-all duration-300" 
-            style={{ 
-              width: '210mm', 
-              minHeight: '297mm',
-              WebkitPrintColorAdjust: 'exact',
-              printColorAdjust: 'exact'
-            }}
-          >
-            <Renderer 
-              html={content} 
-              customStyle={getEditorialCSS()}
-            />
-          </div>
+            className="editorial-page shadow-2xl"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
         </div>
       </div>
     </div>
